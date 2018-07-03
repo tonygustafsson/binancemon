@@ -1,5 +1,6 @@
 binance.json
 output.txt
+config.json
 settings.json
 package-lock.json
 /node_modules/**/*
