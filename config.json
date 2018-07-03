@@ -1,0 +1,9 @@
+{
+    "binanceKey": "<FILL THIS OUT>",
+    "market": "ETHBTC",
+    "decimals": 12,
+    "maxTradesToFetch": 500,
+    "maxTradesToFetchTotal": 10000,
+    "emaMargin": 0.13,
+    "emaHistoryLimit": 9
+}
