@@ -3,17 +3,18 @@
 const fs = require('fs');
 const loki = require('lokijs');
 
+const calc = require('./src/calc');
+const retrieveTrades = require('./src/retrieveTrades');
+const config = require('./config.json');
+
 var method = process.argv[2];
-var calcTrades = require('./calcTrades');
-var retrieveTrades = require('./retrieveTrades');
 
 fs.writeFileSync('output.txt', '');
 
-global.reqArray = [];
-
 // Open LokiJS database and collection trades
-var db = new loki('./binance.json');
+var db = new loki(config.useDatabase);
 var dbTrades = null;
+
 db.loadDatabase({}, () => {
     dbTrades = db.getCollection('trades');
 
@@ -21,16 +22,19 @@ db.loadDatabase({}, () => {
         dbTrades = db.addCollection('trades');
     }
 
-    if (method == 'retrieve') {
-        retrieveTrades.fromBinance(db, dbTrades);
-    } else if (method === 'calculate') {
-        let trades = dbTrades
-            .chain()
-            .simplesort('id')
-            .data();
+    switch (method) {
+        case 'retrieve':
+            retrieveTrades.fromBinance(db, dbTrades);
+            break;
+        case 'calculate':
+            let trades = dbTrades
+                .chain()
+                .simplesort('id')
+                .data();
 
-        calcTrades.fromDatabase(trades);
-    } else {
-        console.log('Unknown command: ' + method);
+            calc.trades(trades);
+            break;
+        default:
+            console.log('Unknown command: ' + method);
     }
 });

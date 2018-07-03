@@ -27,6 +27,21 @@ so you don't get blocked.
 It stores all trades on LokiJS in binance.json. It then opens this database when it's time to calculate your trades and find
 good buying oportunities. K?
 
+## Configuration
+
+Change settings in config.json.
+
+    * binanceKey: false to only be able to get the latest 500 trades, or your API-key from Binance.
+    * logToFile: false to disable logging to file. Or a file path.
+    * useDatabase: The database file that should be used.
+    * market: The market to retrieve data from, ie ETHBTC
+    * userAgent: The useragent that will be presented to Binances API
+    * decimals: Number of decimals to consider and show
+    * maxTradesToFetch: Leave this to 500. API default.
+    * maxTradesToFetchTotal: For more than 500 the binanceKey is needed. If for example this is 5000 - it will do 10 request with 500 trades each.
+    * emaMargin: The margin in percentage from the current price to the exponensional moving avarage. Larger means that the current trade must be further from the EMA.
+    * emaHistoryLimit: The number of trades to take in consideration when estimating the EMA.
+
 ## More info
 
 https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md

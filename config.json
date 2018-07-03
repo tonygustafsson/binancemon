@@ -1,9 +1,12 @@
 {
-    "binanceKey": "<FILL THIS OUT>",
-    "market": "ETHBTC",
+    "binanceKey": false,
+    "logToFile": "output.txt",
+    "useDatabase": "binance.json",
+    "market": "QKCBTC",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36",
     "decimals": 12,
     "maxTradesToFetch": 500,
-    "maxTradesToFetchTotal": 10000,
-    "emaMargin": 0.13,
+    "maxTradesToFetchTotal": 500,
+    "emaMargin": 0.7,
     "emaHistoryLimit": 9
 }
