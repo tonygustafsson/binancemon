@@ -27,10 +27,12 @@ exports.fromBinance = function(db, dbTrades) {
                 })
                 .then(json => {
                     let fromId = json[0].id,
-                        firstIdToFetch =
-                            config.binanceKey !== false && config.maxTradesToFetchTotal > 500
-                                ? fromId - config.maxTradesToFetchTotal
-                                : fromId;
+                        firstIdToFetch = fromId - config.maxTradesToFetchTotal;
+
+                    if (config.maxTradesToFetch >= config.maxTradesToFetchTotal) {
+                        resolve(json);
+                        return;
+                    }
 
                     for (let i = fromId; i >= firstIdToFetch; i = i - config.maxTradesToFetch) {
                         // Back from the first id in the list until we reach the goal
@@ -66,6 +68,10 @@ exports.fromBinance = function(db, dbTrades) {
             reject(err);
         }
     }).then(json => {
+        if (! json) {
+            return;
+        }
+
         Promise.all(reqArray).then(values => {
             values.forEach(response => {
                 json = json.concat(response);
@@ -80,6 +86,6 @@ exports.fromBinance = function(db, dbTrades) {
             });
 
             db.saveDatabase();
-        });
+        })
     });
 };
