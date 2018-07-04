@@ -9,9 +9,9 @@ exports.trades = function(trades) {
 
     trades.forEach(trade => {
         var float = parseFloat(trade.price);
-        if (isNaN(float)) prices.push(0);
+        if (isNaN(float)) float = 0;
 
-        prices.push(parseFloat(trade.price));
+        prices.push(float);
     });
 
     const emaResults = ma.ema(prices, config.emaHistoryLimit);

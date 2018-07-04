@@ -18,13 +18,19 @@ exports.fromBinance = function(db, dbTrades) {
                     'X-MBX-APIKEY': config.binanceKey
                 }
             })
+                .catch(err => {
+                    log.echo(`Could not fetch ${tradesUrl}: ${err}`);
+                })
                 .then(res => {
                     log.echo(`Fetching ${tradesUrl}.`);
                     return res.json();
                 })
                 .then(json => {
                     let fromId = json[0].id,
-                        firstIdToFetch = config.binanceKey ? fromId - config.maxTradesToFetchTotal : fromId + 500;
+                        firstIdToFetch =
+                            config.binanceKey !== false && config.maxTradesToFetchTotal > 500
+                                ? fromId - config.maxTradesToFetchTotal
+                                : fromId;
 
                     for (let i = fromId; i >= firstIdToFetch; i = i - config.maxTradesToFetch) {
                         // Back from the first id in the list until we reach the goal
