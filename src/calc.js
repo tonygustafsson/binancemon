@@ -1,7 +1,7 @@
 const moment = require('moment');
 const ma = require('moving-averages');
 
-const config = require('../config.json')
+const config = require('../config.json'),
     log = require('./log');
 
 exports.trades = function(trades) {
@@ -25,14 +25,10 @@ exports.trades = function(trades) {
 
         if (price > ema && noticeEmaDiff) {
             // Buy
-            log.echo(
-                `${moment(trade.time).format()};Buy;${price};${ema};${diff};${margin}%.`
-            );
+            log.echo(`${moment(trade.time).format()};Buy;${price};${ema};${diff};${margin}%.`);
         } else if (noticeEmaDiff) {
             // Sell
-            log.echo(
-                `${moment(trade.time).format()};Sell;${price};${ema};${diff};${margin}%.`
-            );
+            log.echo(`${moment(trade.time).format()};Sell;${price};${ema};${diff};${margin}%.`);
         }
     });
 };

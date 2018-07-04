@@ -2,9 +2,10 @@ const fetch = require('node-fetch');
 
 const config = require('../config.json'),
     log = require('./log'),
-    tradesUrl = config.binanceKey && config.maxTradesToFetchTotal > 500
-        ? `https://api.binance.com/api/v1/historicalTrades?symbol=${config.market}`
-        : `https://api.binance.com/api/v1/trades?symbol=${config.market}`;
+    tradesUrl =
+        config.binanceKey && config.maxTradesToFetchTotal > 500
+            ? `https://api.binance.com/api/v1/historicalTrades?symbol=${config.market}`
+            : `https://api.binance.com/api/v1/trades?symbol=${config.market}`;
 
 var reqArray = [];
 
@@ -36,15 +37,18 @@ exports.fromBinance = function(db, dbTrades) {
                                             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36',
                                         'X-MBX-APIKEY': config.binanceKey
                                     }
-                                }).then(res => {
-                                    log.echo(`Fetching ${tradesUrl}&fromId=${i}.`);
+                                })
+                                    .then(res => {
+                                        log.echo(`Fetching ${tradesUrl}&fromId=${i}.`);
 
-                                    return res.json();
-                                }).then(json => {
-                                    resolve(json);
-                                }).catch(err => {
-                                    reject(err);
-                                });
+                                        return res.json();
+                                    })
+                                    .then(json => {
+                                        resolve(json);
+                                    })
+                                    .catch(err => {
+                                        reject(err);
+                                    });
                             })
                         );
                     }
